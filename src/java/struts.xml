@@ -1,0 +1,47 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- Configuration for the default package. -->
+    <package name="default" namespace="/" extends="struts-default">
+        <action name="Login" class="com.exavalu.models.User" method="doLogin">
+            <result name="SUCCESS">employeeDetails.jsp</result>
+            <result name="FAILURE">login.jsp</result>
+        </action> 
+         <action name="Logout" class="com.exavalu.models.User" method="doLogout">
+            <result name="SUCCESS">landingPage.jsp</result>
+            <result name="FAILURE">employeeDetails.jsp</result>
+        </action> 
+        <action name="SignUp" class="com.exavalu.models.User" method="doSignUp">
+            <result name="SUCCESS">login.jsp</result>
+            <result name="FAILURE">login.jsp</result>
+        </action> 
+         <action name="Edit" class="com.exavalu.models.Employee" method="doEdit">
+            <result name="SUCCESS">editemployee.jsp</result>
+            <result name="FAILURE">employeeDetails.jsp</result>
+        </action> 
+        <action name="Delete" class="com.exavalu.models.Employee" method="delete">
+            <result name="SUCCESS">employeeDetails.jsp</result>
+            <result name="FAILURE">employeeDetails.jsp</result>
+        </action> 
+        <action name="Update" class="com.exavalu.models.Employee" method="saveEmployee">
+            <result name="SUCCESS">employeeDetails.jsp</result>
+            <result name="FAILURE">employeeDetails.jsp</result>
+        </action>  
+        <action name="Search" class="com.exavalu.models.Employee" method="findEmployee">
+            <result name="SUCCESS" type="redirect">search.jsp</result>
+            <result name="FAILURE">employeeDetails.jsp</result>
+        </action> 
+        <action name="Add" class="com.exavalu.models.Employee" method="addEmployee">
+            <result name="SUCCESS" type="redirect">employeeDetails.jsp</result>
+            <result name="FAILURE">addEmployee.jsp</result>
+        </action>
+        <action name="ADD" class="com.exavalu.models.Employee" method="newADD">
+            <result name="SUCCESS">addEmployee.jsp</result>
+            <result name="FAILURE">employeeDetails.jsp</result>
+        </action>  
+        
+           
+    </package>
+</struts>
