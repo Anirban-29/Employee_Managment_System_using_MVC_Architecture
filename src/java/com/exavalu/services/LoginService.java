@@ -65,7 +65,7 @@ public class LoginService {
 
     public boolean doSignUp(User user) {
         boolean result=false;
-        String sql ="INSERT INTO users(emailAddress,password,firstName,lastName)" + "VALUES(? ,? ,? ,?)";
+        String sql ="INSERT INTO users(emailAddress,password,firstName,lastName,countrycode,statecode,distcode)" + "VALUES(? ,? ,? ,?,?,?,?)";
  
 
         try {
@@ -76,6 +76,10 @@ public class LoginService {
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getFirstName());
             preparedStatement.setString(4, user.getLastName());
+                        preparedStatement.setString(5, user.getCountryCode() );
+            preparedStatement.setString(6, user.getStateCode() );
+            preparedStatement.setString(7, user.getDistCode() );
+
             System.out.println(preparedStatement);
             int res=preparedStatement.executeUpdate();
             
@@ -97,6 +101,33 @@ public class LoginService {
         
         return result;
         
+    }
+    public boolean cheackDuplicate(User user)
+    {
+        boolean success = false;
+        
+        String sql = "Select * from users where emailAddress=?";
+        
+        try {
+            Connection con = JDBCConnectionManager.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, user.getEmailAddess() );
+            
+            System.out.println("LoginService :: "+ps);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next())
+            {
+                success = true;
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        
+        return success;
     }
     
 }
