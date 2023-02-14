@@ -23,6 +23,8 @@
                     <li><a href="ADD" class="nav-link px-2 text-white">Add Employee</a></li>
                     <li><a href="employeeDetails.jsp" class="nav-link px-2 text-white">Show Employee</a></li>
                     <li><a href="search.jsp" class="nav-link px-2 text-white">Search Employee</a></li>
+                    <li><a href="ApiFetch" class="nav-link px-2 text-white">Api Call</a></li>
+
                 </ul>
 
 
@@ -40,10 +42,10 @@
                     </a>
                     <%
                     } else {%>
-                       <c:set var="user" value = "${Loggedin}"></c:set>
+                    <c:set var="user" value = "${Loggedin}"></c:set>
 
-                    <a class="nav-link px-2 text-white" href="#">
-                        Welcome:<c:out value="${user.getFirstName()} ${user.getLastName()}"/></a>
+                        <a class="nav-link px-2 text-white" href="#">
+                            Welcome:<c:out value="${user.getFirstName()} ${user.getLastName()}"/></a>
                     <a href="Logout">
                         <button type="button" class="btn btn-outline-light me-2" >Log Out</button>
                     </a>

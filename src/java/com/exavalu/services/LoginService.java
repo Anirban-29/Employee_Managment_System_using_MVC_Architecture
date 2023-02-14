@@ -11,62 +11,56 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
  * @author Avijit Chattopadhyay
  */
 public class LoginService {
-    
+
     public static LoginService loginService = null;
-    
-    private LoginService(){}
-    
-    public static LoginService getInstance()
-    {
-        if(loginService==null)
-        {
+
+    private LoginService() {
+    }
+
+    public static LoginService getInstance() {
+        if (loginService == null) {
             return new LoginService();
-        }
-        else
-        {
+        } else {
             return loginService;
         }
     }
-    
-    public boolean doLogin(User user)
-    {
+
+    public boolean doLogin(User user) {
         boolean success = false;
-        
+
         String sql = "Select * from users where emailAddress=? and password=?";
-        
+
         try {
             Connection con = JDBCConnectionManager.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, user.getEmailAddess() );
+            ps.setString(1, user.getEmailAddess());
             ps.setString(2, user.getPassword());
-            
-            System.out.println("LoginService :: "+ps);
-            
+
+            System.out.println("LoginService :: " + ps);
+
             ResultSet rs = ps.executeQuery();
-            
-            if(rs.next())
-            {
+
+            if (rs.next()) {
                 success = true;
             }
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
-        
+
         return success;
     }
 
     public boolean doSignUp(User user) {
-        boolean result=false;
-        String sql ="INSERT INTO users(emailAddress,password,firstName,lastName,countrycode,statecode,distcode)" + "VALUES(? ,? ,? ,?,?,?,?)";
- 
+        boolean result = false;
+        String sql = "INSERT INTO users(emailAddress,password,firstName,lastName,countrycode,statecode,distcode)" + "VALUES(? ,? ,? ,?,?,?,?)";
 
         try {
             Connection con = JDBCConnectionManager.getConnection();
@@ -76,58 +70,60 @@ public class LoginService {
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getFirstName());
             preparedStatement.setString(4, user.getLastName());
-                        preparedStatement.setString(5, user.getCountryCode() );
-            preparedStatement.setString(6, user.getStateCode() );
-            preparedStatement.setString(7, user.getDistCode() );
+            preparedStatement.setString(5, user.getCountryCode());
+            preparedStatement.setString(6, user.getStateCode());
+            preparedStatement.setString(7, user.getDistCode());
 
             System.out.println(preparedStatement);
-            int res=preparedStatement.executeUpdate();
-            
-            if(res==1)
-            {
-                result=true;
+            int res = preparedStatement.executeUpdate();
+
+            if (res == 1) {
+                result = true;
             }
 
-
-
-
- 
-
-
         } catch (SQLException ex) {
-           int e=ex.getErrorCode();
-           System.out.println(e);
+            int e = ex.getErrorCode();
+            System.out.println(e);
         }
-        
+
         return result;
-        
+
     }
-    public boolean cheackDuplicate(User user)
-    {
+
+    public boolean cheackDuplicate(User user) {
         boolean success = false;
-        
+
         String sql = "Select * from users where emailAddress=?";
-        
+
         try {
             Connection con = JDBCConnectionManager.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, user.getEmailAddess() );
-            
-            System.out.println("LoginService :: "+ps);
-            
+            ps.setString(1, user.getEmailAddess());
+
+            System.out.println("LoginService :: " + ps);
+
             ResultSet rs = ps.executeQuery();
-            
-            if(rs.next())
-            {
+
+            if (rs.next()) {
                 success = true;
             }
-            
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
-        
+
         return success;
     }
-    
+
+    public boolean doSignUpAll(ArrayList userList) {
+        boolean result = true;
+        for(int i=0;i<userList.size();i++)
+        {
+            if(!doSignUp((User)userList.get(i)))
+            {
+                result=false;
+            }
+        }
+        return result;
+    }
 }

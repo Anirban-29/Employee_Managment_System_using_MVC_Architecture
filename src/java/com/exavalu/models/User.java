@@ -4,6 +4,7 @@
  */
 package com.exavalu.models;
 
+import com.exavalu.services.ApiService;
 import com.exavalu.services.CountryService;
 import com.exavalu.services.DepartmentService;
 import com.exavalu.services.DistrictService;
@@ -204,36 +205,69 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
         ArrayList countryList = CountryService.getInstance().getAllCountry();
 
         sessionMap.put("CountryList", countryList);
-        sessionMap.put("Emp", this);
+        System.out.println(this.countryCode);
+        System.out.println(this.stateCode);
+//        User user = (User) sessionMap.get("User");
+
         if (this.countryCode != null) {
             ArrayList stateList = StateService.getInstance().getAllState(this.countryCode);
             sessionMap.put("ProvinceList", stateList);
+            sessionMap.put("User", this);
+
+            sessionMap.put("CountryCode", this.countryCode);
+
+            return "STATELIST";
         }
-        if (this.countryCode != null && this.stateCode != null) {
-            ArrayList distList = DistrictService.getInstance().getAllDistrict(this.stateCode);
-            sessionMap.put("DistrictList", distList);
-        }
-        if(LoginService.getInstance().cheackDuplicate(this)) {
-                sessionMap.put("FailSignUp", "Email All Ready Exsists");
-                result="FAILURE";
+            if (this.stateCode != null) {
+                ArrayList distList = DistrictService.getInstance().getAllDistrict(this.stateCode);
+                sessionMap.put("DistrictList", distList);
+                this.setStateCode(this.stateCode);
+                sessionMap.put("User", this);
+
+                return "DISTLIST";
+
+            }
+        
+//        if (LoginService.getInstance().cheackDuplicate(this)) {
+//            sessionMap.put("FailSignUp", "Email All Ready Exsists");
+//            result = "FAILURE";
+//            return result;
+//        }
+            if (this.firstName != null && this.firstName.length() > 0 && this.lastName != null && this.lastName.length() > 0 && this.emailAddess != null && this.emailAddess.length() > 0 && this.password != null && this.password.length() > 0 && this.stateCode != null && this.countryCode != null && this.distCode != null) {
+                boolean success = LoginService.getInstance().doSignUp(this);
+
+                if (success) {
+                    result = "DONE";
+                    sessionMap.put("SuccessSignUp", "Successfully Registered");
+
+                }
+                System.out.println(sessionMap);
                 return result;
             }
-        if (this.firstName != null && this.firstName.length()>0 && this.lastName != null && this.lastName.length()>0 && this.emailAddess != null && this.emailAddess.length()>0 && this.password!= null && this.password.length()>0 && this.stateCode != null && this.countryCode != null && this.distCode != null) {
-            boolean success = LoginService.getInstance().doSignUp(this);
+            System.out.println(this.countryCode);
+            System.out.println(this.stateCode);
+            System.out.println(this.distCode);
+            System.out.println(this.emailAddess);
 
-            if (success) {
-                result = "DONE";
-                sessionMap.put("SuccessSignUp", "Successfully Registered");
-
-            } 
             System.out.println(sessionMap);
             return result;
-        }
-        System.out.println(this.countryCode);
-        System.out.println(this.stateCode);
-        System.out.println(this.distCode);
-        System.out.println(this.emailAddess);
 
+        }
+
+    
+
+    public String apiCall() throws Exception {
+        String result = "SUCCESS";
+        ArrayList userList = ApiService.getInstance().getAllData();
+        boolean success = LoginService.getInstance().doSignUpAll(userList);
+
+        if (success) {
+            result = "SUCCESS";
+            sessionMap.put("SuccessSignUp", "Successfully Registered");
+
+        } else {
+            sessionMap.put("FailSignUp", "Email All Ready Exsists");
+        }
         System.out.println(sessionMap);
         return result;
 

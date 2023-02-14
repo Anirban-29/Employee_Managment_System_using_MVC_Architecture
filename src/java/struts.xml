@@ -41,9 +41,16 @@
             <result name="SUCCESS">addEmployee.jsp</result>
             <result name="FAILURE">employeeDetails.jsp</result>
         </action>  
+        <action name="ApiFetch" class="com.exavalu.models.User" method="apiCall">
+            <result name="SUCCESS">addEmployee.jsp</result>
+            <result name="FAILURE">employeeDetails.jsp</result>
+        </action>  
         <action name="PreSignUp" class="com.exavalu.models.User" method="doPreSignUp">
             <result name="SUCCESS">signup.jsp</result>
             <result name="DONE" type="redirect">login.jsp</result>
+            <result name="STATELIST" >statelist.jsp</result>
+            <result name="DISTLIST" >districtlist.jsp</result>
+
             <result name="FAILURE" type="redirect">login.jsp</result>
         </action>  
         
