@@ -6,11 +6,11 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="user" value = "${Loggedin}"></c:set>
+<%--<c:set var="user" value = "${Loggedin}"></c:set>
 
 <c:if test="${user == null}">
     <c:redirect url="login.jsp"></c:redirect>
-</c:if>
+</c:if>--%>
 <!DOCTYPE html>
 <html lang="en">
     <head>,
@@ -23,8 +23,29 @@
 
         <script src="https://kit.fontawesome.com/2bbac3a66c.js" crossorigin="anonymous" ></script>
     </head>
+    <script>
+        $("form").on("submit", function (e) {
+            var dataString = $(this).serialize();
+            alert(dataString);
+            
+
+            $.ajax({
+                type: "POST",
+                url: "Add",
+                data: dataString,
+                success: function (responseText) {
+                    alert(responseText);
+                    $("#" + "added").html(responseText);
+
+                }
+            });
+//            e.preventDefault();
+        });
+    </script>
     <body>
-        <form  id="create-account-form" action="Add" method="POST">
+        <div id="added"></div>
+
+        <form name="add" id="create-account-form" action="" method="POST">
 
             <div class="title">
                 <h2>Add Employee</h2>
@@ -73,7 +94,7 @@
                 <select name="depId" class="form-select" id="departmentId" required>
                     <option value="">Select Department</option>
                     <c:forEach var="dept" items="${DeptList}">
-                    <option value=${dept.getDepartmentId()} >${dept.getDepartmentName()}  </option>
+                        <option value=${dept.getDepartmentId()} >${dept.getDepartmentName()}  </option>
                     </c:forEach>
                 </select>
                 <label for="floatingInput">Department</label>
@@ -82,9 +103,9 @@
         <div class="form-floating">
             <select name="roleId" class="form-select" id="roleId" required>
                 <option value="">Select Role</option>
-                 <c:forEach var="rol" items="${RoleList}">
+                <c:forEach var="rol" items="${RoleList}">
                     <option value=${rol.getRoleId()} >${rol.getRoleName()}  </option>
-                    </c:forEach>
+                </c:forEach>
             </select>
             <label for="floatingInput">Role</label>
         </div>
@@ -106,9 +127,9 @@
         <button type="submit" class="btn">Submit</button>
     </form>
 
-
-    <!-- JAVASCRIPT -->
-    <script src="js/app.js"></script>
+</div>
+<!-- JAVASCRIPT -->
+<script src="js/app.js"></script>
 </body>
 </html>
 

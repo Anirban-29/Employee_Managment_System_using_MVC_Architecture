@@ -11,7 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 public class LoginService {
 
     public static LoginService loginService = null;
+    public static Logger log = Logger.getLogger(LoginService.class.getName());
+
 
     private LoginService() {
     }
@@ -52,7 +56,9 @@ public class LoginService {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+             log.error("Not Found");
+             System.out.println(ex.getErrorCode());
+             ex.printStackTrace();
         }
 
         return success;
@@ -83,7 +89,8 @@ public class LoginService {
 
         } catch (SQLException ex) {
             int e = ex.getErrorCode();
-            System.out.println(e);
+            log.error(LocalDateTime.now()+"Sql Error :"+e+" Duplicate Email Address");
+            System.out.println(LocalDateTime.now()+"error code:"+e+"Duplicate Email Address" );
         }
 
         return result;

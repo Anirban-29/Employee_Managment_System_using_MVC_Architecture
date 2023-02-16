@@ -5,12 +5,16 @@
 package com.exavalu.services;
 
 import com.exavalu.models.Employee;
+import com.exavalu.models.User;
+import static com.exavalu.services.LoginService.log;
 import com.exavalu.utils.JDBCConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -19,6 +23,8 @@ import java.util.ArrayList;
 public class EmployeeService {
 
     public static EmployeeService employeeService = null;
+    public static Logger log = Logger.getLogger(EmployeeService.class.getName());
+
 
     public static EmployeeService getInstance() {
         if (employeeService == null) {
@@ -57,6 +63,8 @@ public class EmployeeService {
             }
 
         } catch (SQLException ex) {
+            log.error("Error code: "+ex.getErrorCode()+"returning Failure from get all employee method");
+            System.out.println("returning Failure from Login method");
             ex.printStackTrace();
         }
         System.err.println("Total rows:" + empList.size());
@@ -94,6 +102,9 @@ public class EmployeeService {
             }
 
         } catch (SQLException ex) {
+             int e = ex.getErrorCode();
+            log.error(LocalDateTime.now()+"Sql Error :"+e+"error in edit employee method");
+            System.out.println(LocalDateTime.now()+"error code:"+e+"Duplicate Email Address" );
             ex.printStackTrace();
         }
         return result;
@@ -124,6 +135,9 @@ public class EmployeeService {
             }
 
         } catch (SQLException ex) {
+             int e = ex.getErrorCode();
+            log.error(LocalDateTime.now()+"Sql Error :"+e+"error in getEmployee method");
+            System.out.println(LocalDateTime.now()+"error code:"+e+"Duplicate Email Address" );
             ex.printStackTrace();
         }
 
@@ -167,6 +181,9 @@ public class EmployeeService {
             }
 
         } catch (SQLException ex) {
+             int e = ex.getErrorCode();
+            log.error(LocalDateTime.now()+"Sql Error :"+e+" error in search Employee method");
+            System.out.println(LocalDateTime.now()+"error code:"+e+"Duplicate Email Address" );
             ex.printStackTrace();
         }
         return empList;
@@ -201,6 +218,9 @@ public class EmployeeService {
             }
 
         } catch (SQLException ex) {
+             int e = ex.getErrorCode();
+            log.error(LocalDateTime.now()+"Sql Error :"+e+" error in add new employee");
+            System.out.println(LocalDateTime.now()+"error code:"+e+"Duplicate Email Address" );
             ex.printStackTrace();
         }
         return result;
@@ -223,6 +243,9 @@ public class EmployeeService {
             }
 
         } catch (SQLException ex) {
+             int e = ex.getErrorCode();
+            log.error(LocalDateTime.now()+"Sql Error :"+e+" error in delete employee");
+            System.out.println(LocalDateTime.now()+"error code:"+e+"Duplicate Email Address" );
 
         }
         return result;

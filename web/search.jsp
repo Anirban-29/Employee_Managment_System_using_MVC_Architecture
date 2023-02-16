@@ -44,31 +44,48 @@
 
 
     </head>
+    <script>
+        $("form").on("submit", function (e) {
+            var dataString = $(this).serialize();
+            alert(dataString);
+
+            $.ajax({
+                type: "POST",
+                url: "Search",
+                data: dataString,
+                success: function (responseText) {
+                    alert(responseText);
+                     $("#" + "searched").html(responseText);
+                                
+                }
+            });
+            e.preventDefault();
+        });
+    </script>
     <body>
-        <jsp:include page="menu.jsp"></jsp:include>
-            <h1>Search Employee</h1>
-            <form action="Search" method="post" class="form_style">
-                <div class="filed_style">
-                    <label for="floatingInput">First Name</label>
-                    <input type="text" class="" id="floatingInput" placeholder="Search FirstName wise" name="firstName">
+        <h1>Search Employee</h1>
+        <form action="" method="post" class="form_style">
+            <div class="filed_style">
+                <label for="floatingInput">First Name</label>
+                <input type="text" class="" id="floatingInput" placeholder="Search FirstName wise" name="firstName">
 
-                </div>
-                <div class="filed_style">
-                    <label for="floatingInput">Last Name</label>
-                    <input type="text" class="" id="floatingInput" placeholder="Search LastName wise" name="lastName" value="">
-                </div>
-                <div class="filed_style">
-                    <label for="gender">Gender</label>
+            </div>
+            <div class="filed_style">
+                <label for="floatingInput">Last Name</label>
+                <input type="text" class="" id="floatingInput" placeholder="Search LastName wise" name="lastName" value="">
+            </div>
+            <div class="filed_style">
+                <label for="gender">Gender</label>
 
-                    <select name="gender"  id="gender" >
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>  
-                        <option value="Female">Female</option> 
-                        <option value="Other">Other</option> 
-                    </select>
-                </div>
+                <select name="gender"  id="gender" >
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>  
+                    <option value="Female">Female</option> 
+                    <option value="Other">Other</option> 
+                </select>
+            </div>
 
-                <div class="filed_style">
+            <div class="filed_style">
                 <label for="departmentId">Department</label>
                 <select name="depId" class="form-select" id="departmentId">
                     <option value="">Select Department </option>
@@ -83,89 +100,16 @@
                 <label for="floatingInput">Role</label>
                 <select name="roleId" class="form-select" id="roleId">
                     <option value="">Select Role </option>
-                   <c:forEach var="rol" items="${RoleList}">
-                    <option value=${rol.getRoleId()} >${rol.getRoleName()}  </option>
+                    <c:forEach var="rol" items="${RoleList}">
+                        <option value=${rol.getRoleId()} >${rol.getRoleName()}  </option>
                     </c:forEach>
                 </select>
             </div>
             <button class="filed_style" type="submit">Search</button>
         </form>
 
-        <c:if test="${empList != null}" >
-        <table id="example" class="table table-striped border">
-            <thead>
-                <tr class="backgroud_colorha">
-                    <th>
-                        Employee Id
-                    </th>
-                    <th>
-                        First Name
-                    </th>
-                    <th>
-                        Last Name
-                    </th>
-                    <th>
-                        Phone Number
-                    </th>
-                    <th>
-                        Gender
-                    </th>
-                    <th>
-                        Age
-                    </th>
-                    <th>
-                        Department Name
-                    </th>
-                    <th>
-                        Role Name
-                    </th>
-                    <th>
-                        Basic Salary
-                    </th>
-                    <th>
-                        Allowance
-                    </th>
-                    <th>
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${empList}" var="emp">
-                 <tr>
-                        <td>
-                            ${emp.getEmployeeId()}
-                        </td>
-                        <th scope="row">
-                            ${emp.getFirstName()}                    </th>
-                        <th scope="row">
-                            ${emp.getLastName()}                    </th>
-                        <td>
-                            ${emp.getPhone()}                    </td>
-                        <td>
-                            ${emp.getGender()}                    </td>
-                        <td>
-                            ${emp.getAge()}                    </td>
-                        <td>
-                            ${emp.getDepNamw()}                    </td>
-                        <td>
-                            ${emp.getRoleNamw()}                    </td>
-                        <td>
-                            ${emp.getSalary()}                    </td>
-                        <td>
-                            ${emp.getAllowance()}                    </td>
-                        <td> 
-                            <a href=EditEmployee?employeeId=${emp.getEmployeeId()}>
-                                Edit</a>                     
-                        </td>
-                    </tr>
-
-                </c:forEach>
-
-            </tbody>
-        </table>
-        </c:if>
-
+        <div id="searched"></div>
 
     </body>
+
 </html>

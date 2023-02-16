@@ -2,10 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.exavalu.services.EmployeeService"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="user" value = "${Loggedin}"></c:set>
-<c:if test="${user == null}">
-    <c:redirect url="login.jsp"></c:redirect>
-</c:if>
+
 <!doctype html>
 <html lang="en">
 
@@ -39,7 +36,6 @@
 
     <body>
 
-        <jsp:include page="menu.jsp"></jsp:include>
 
 
         <c:set var="msg" value="${Success}"></c:set>

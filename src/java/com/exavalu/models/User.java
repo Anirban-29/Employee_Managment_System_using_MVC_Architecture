@@ -17,6 +17,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
+import org.apache.log4j.Logger;
 import org.apache.struts2.dispatcher.ApplicationMap;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.ApplicationAware;
@@ -126,7 +127,9 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
             sessionMap.put("RoleList", roleList);
             System.out.println(sessionMap);
         } else {
-            System.out.println("returning Failure from doLogin method");
+            Logger log = Logger.getLogger(User.class.getName());
+            log.error("returning Failure from Login method");
+            System.out.println("returning Failure from Login method");
         }
 
         return result;
@@ -269,6 +272,12 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
             sessionMap.put("FailSignUp", "Email All Ready Exsists");
         }
         System.out.println(sessionMap);
+        return result;
+
+    }
+    public String getAllEmployee() throws Exception {
+        String result = "SUCCESS";
+        
         return result;
 
     }

@@ -19,6 +19,7 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: whitesmoke;
+    flex-direction: column;
 }
 
 #create-account-form {

@@ -370,6 +370,8 @@ public class Employee extends ActionSupport implements ApplicationAware, Session
     public String findEmployee() throws Exception {
         String result = "FAILURE";
         ArrayList empList = EmployeeService.getInstance().searchEmployee(this);
+                    System.out.println(empList.size());
+
 
         if (!empList.isEmpty()) {
             System.out.println("returning success from findemployee method");
